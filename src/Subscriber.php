@@ -1,6 +1,8 @@
 <?php
 namespace TijmenWierenga\LaravelChargebee;
 
+use ChargeBee\ChargeBee\Environment;
+use ChargeBee\ChargeBee\Models\HostedPage;
 use ChargeBee_Environment;
 use ChargeBee_HostedPage;
 use ChargeBee_Subscription;
@@ -57,7 +59,7 @@ class Subscriber
     public function __construct(Model $model = null, $plan = null, array $config = null)
     {
         // Set up Chargebee environment keys
-        ChargeBee_Environment::configure(getenv('CHARGEBEE_SITE'), getenv('CHARGEBEE_KEY'));
+        Environment::configure(getenv('CHARGEBEE_SITE'), getenv('CHARGEBEE_KEY'));
 
         // You can set a plan on the constructor, but it's not required
         $this->plan = $plan;
@@ -72,13 +74,13 @@ class Subscriber
      * @return array
      * @throws MissingPlanException
      */
-    public function create($cardToken = null)
+    public function create($cardToken = null, array $params = [])
     {
         if (! $this->plan) throw new MissingPlanException('No plan was set to assign to the customer.');
 
         $subscription = $this->buildSubscription($cardToken);
 
-        $result = ChargeBee_Subscription::create($subscription);
+        $result = \ChargeBee\ChargeBee\Models\Subscription::create($subscription, $params);
         $subscription = $result->subscription();
         $card = $result->card();
         $addons = $subscription->addons;
@@ -113,7 +115,7 @@ class Subscriber
     {
         if (! $this->plan) throw new MissingPlanException('No plan was set to assign to the customer.');
 
-        return ChargeBee_HostedPage::checkoutNew([
+        return HostedPage::checkoutNew([
             'subscription' => [
                 'planId' => $this->plan
             ],
@@ -136,14 +138,14 @@ class Subscriber
      */
     public function registerFromHostedPage($id)
     {
-        $result = ChargeBee_HostedPage::retrieve($id);
+        $result = HostedPage::retrieve($id);
 
         // TODO: Check if subscription was successful or failed.
         // Check if the ID of the model is the same as the ID of the model that performed the payment
         if (! (int) base64_decode($result->hostedPage()->passThruContent) === $this->model->id) throw new UserMismatchException('The user who performed the payment is not the user you are trying to attach the subscription to');
 
         $subscriptionId = $result->hostedPage()->content['subscription']['id'];
-        $result = ChargeBee_Subscription::retrieve($subscriptionId);
+        $result = \ChargeBee\ChargeBee\Models\Subscription::retrieve($subscriptionId);
         $subscription = $result->subscription();
         $addons = $subscription->addons;
         $card = $result->card();
@@ -209,11 +211,10 @@ class Subscriber
      * @param $plan
      * @return null
      */
-    public function swap(Subscription $subscription, $plan)
+    public function swap(Subscription $subscription, $plan, array $params = [])
     {
-        return ChargeBee_Subscription::update($subscription->subscription_id, [
-            'plan_id' => $plan
-        ])->subscription();
+        $params['plan_id'] = $plan;
+        return \ChargeBee\ChargeBee\Models\Subscription::update($subscription->subscription_id, $params)->subscription();
     }
 
     /**
@@ -222,12 +223,11 @@ class Subscriber
      * @param Subscription $subscription
      * @return null
      */
-    public function cancel(Subscription $subscription, $cancelImmediately = false)
+    public function cancel(Subscription $subscription, $cancelImmediately = false, array $params = [])
     {
+        $params['end_of_term'] = ! $cancelImmediately;
         // TODO: Check if subscription is active or in trial
-        return ChargeBee_Subscription::cancel($subscription->subscription_id, [
-            'end_of_term' => ! $cancelImmediately
-        ])->subscription();
+        return \ChargeBee\ChargeBee\Models\Subscription::cancel($subscription->subscription_id, $params)->subscription();
     }
 
     /**
@@ -236,9 +236,9 @@ class Subscriber
      * @param Subscription $subscription
      * @return null
      */
-    public function resume(Subscription $subscription)
+    public function resume(Subscription $subscription, array $params = [])
     {
-        return ChargeBee_Subscription::removeScheduledCancellation($subscription->subscription_id)->subscription();
+        return \ChargeBee\ChargeBee\Models\Subscription::removeScheduledCancellation($subscription->subscription_id, $params)->subscription();
     }
 
     /**
@@ -247,10 +247,10 @@ class Subscriber
      * @param Subscription $subscription
      * @return null
      */
-    public function reactivate(Subscription $subscription)
+    public function reactivate(Subscription $subscription, array $params = [])
     {
         // TODO: Check if subscription is cancelled
-        return ChargeBee_Subscription::reactivate($subscription->subscription_id)->subscription();
+        return \ChargeBee\ChargeBee\Models\Subscription::reactivate($subscription->subscription_id, $params)->subscription();
     }
 
     /**
