@@ -13,10 +13,11 @@ class CreateSubscriptionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('subscriptions', function($table) {
+        Schema::create('chargebee_subscriptions', function($table) {
             $table->increments('id');
             $table->string('subscription_id');
             $table->string('plan_id');
+            $table->string('status')->nullable();
             $table->integer('user_id')->index()->unsigned();
             $table->integer('quantity')->default(1);
             $table->integer('last_four')->nullable();
@@ -34,6 +35,6 @@ class CreateSubscriptionsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('subscriptions');
+        Schema::drop('chargebee_subscriptions');
     }
 }

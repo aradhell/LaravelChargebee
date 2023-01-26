@@ -1,8 +1,7 @@
 <?php
 namespace TijmenWierenga\LaravelChargebee;
 
-
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 
 /**
  * This trait handles webhooks coming from Chargebee
@@ -23,6 +22,15 @@ trait HandlesWebhooks
     public function updateCancellationDate($date = null)
     {
         $this->ends_at = ($date) ?: Carbon::now();
+        $this->status = self::STATUS_CANCELED;
+        $this->save();
+
+        return $this;
+    }
+
+    public function updateStatus(string $status)
+    {
+        $this->status = $status;
         $this->save();
 
         return $this;

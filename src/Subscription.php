@@ -14,7 +14,23 @@ class Subscription extends Model
 {
     use HandlesWebhooks;
 
-    protected $fillable = ['subscription_id', 'plan_id', 'user_id', 'quantity', 'last_four', 'trial_ends_at', 'ends_at', 'next_billing_at'];
+    const STATUS_ACTIVE = 'active';
+    const STATUS_TRIAL = 'in_trial';
+    const STATUS_CANCELED= 'cancelled';
+    const STATUS_PAUSED = 'paused';
+    const STATUS_FUTURE = 'future';
+    const STATUS_NON_RENEWING= 'non_renewing';
+
+    public static $statusMap = [
+        'active' => self::STATUS_ACTIVE,
+        'in_trial' => self::STATUS_TRIAL,
+        'cancelled' => self::STATUS_CANCELED,
+        'paused' => self::STATUS_PAUSED,
+        'future' => self::STATUS_FUTURE,
+        'non_renewing' => self::STATUS_NON_RENEWING,
+    ];
+
+    protected $fillable = ['subscription_id', 'plan_id', 'user_id', 'quantity', 'last_four', 'trial_ends_at', 'ends_at', 'next_billing_at', 'status'];
 
     /**
      * @var array
@@ -68,6 +84,7 @@ class Subscription extends Model
         $subscriptionDetails = $subscriber->cancel($this);
 
         $this->ends_at = $subscriptionDetails->cancelledAt;
+        $this->status = self::STATUS_CANCELED;
         $this->save();
 
         return $this;
@@ -84,6 +101,7 @@ class Subscription extends Model
         $subscriptionDetails = $subscriber->cancel($this, true);
 
         $this->ends_at = $subscriptionDetails->cancelledAt;
+        $this->status = self::STATUS_CANCELED;
         $this->trial_ends_at = $subscriptionDetails->cancelledAt;
         $this->save();
 
@@ -102,6 +120,7 @@ class Subscription extends Model
 
         $this->ends_at = null;
         $this->next_billing_at = $subscriptionDetails->currentTermEnd;
+        $this->status = self::STATUS_ACTIVE;
         $this->trial_ends_at = $subscriptionDetails->trialEnd;
         $this->save();
 
@@ -119,6 +138,7 @@ class Subscription extends Model
         $subscriptionDetails = $subscriber->reactivate($this);
 
         $this->ends_at = null;
+        $this->status = self::STATUS_ACTIVE;
         $this->next_billing_at = $subscriptionDetails->currentTermEnd;
         $this->save();
 

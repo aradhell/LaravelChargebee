@@ -20,8 +20,18 @@ class WebhookController extends Controller
     {
         $webhookEvent = studly_case($request->event_type);
 
+        $payload = json_decode(json_encode($request->input('content')));
+
         if (method_exists($this, 'handle' . $webhookEvent)) {
-            $payload = json_decode(json_encode($request->input('content')));
+
+            if (isset($payload->subscription) && isset($payload->subscription->status)) {
+                /** @var Subscription $subscription */
+                $subscription = $this->getSubscription($payload->subscription->id);
+
+                if ($subscription) {
+                    $subscription->updateStatus($payload->subscription->status);
+                }
+            }
 
             return $this->{'handle' . $webhookEvent}($payload);
         } else {
@@ -35,6 +45,7 @@ class WebhookController extends Controller
      */
     public function handleSubscriptionCancelled($payload)
     {
+        /** @var Subscription $subscription */
         $subscription = $this->getSubscription($payload->subscription->id);
 
         if ($subscription) {

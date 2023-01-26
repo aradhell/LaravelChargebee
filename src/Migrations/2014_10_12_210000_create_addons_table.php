@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class CreateAddonsTable extends Migration
 {
@@ -14,7 +15,7 @@ class CreateAddonsTable extends Migration
     {
         Schema::create('addons', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('subscription_id')->index()->unsigned();
+            $table->integer('chargebee_subscription_id')->index()->unsigned();
             $table->string('name');
             $table->string('addon_id');
             $table->integer('quantity')->default(0);

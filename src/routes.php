@@ -1,3 +1,5 @@
 <?php
 
-Route::post('/chargebee/webhook', \TijmenWierenga\LaravelChargebee\Http\Controllers\WebhookController::class . '@handleWebhook');
+use TijmenWierenga\LaravelChargebee\Http\Controllers\WebhookController;
+
+Route::post('/chargebee/webhook', [WebhookController::class, 'handleWebhook'])->name('chargebee.webhook');
