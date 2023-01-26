@@ -18,7 +18,7 @@ class WebhookController extends Controller
      */
     public function handleWebhook(Request $request)
     {
-        $webhookEvent = studly_case($request->event_type);
+        $webhookEvent = Str::studly($request->event_type);
 
         $payload = json_decode(json_encode($request->input('content')));
 
