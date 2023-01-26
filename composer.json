@@ -45,8 +45,10 @@
         "test": "../../bin/phpunit --colors"
     },
     "extra": {
-        "branch-alias": {
-            "dev-master": "1.0-dev"
+        "laravel": {
+            "providers": [
+                "TijmenWierenga\\LaravelChargebee\\ChargebeeServiceProvide"
+            ]
         }
     }
 }
