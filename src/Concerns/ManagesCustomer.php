@@ -117,7 +117,7 @@ trait ManagesCustomer
 
     public function chargebeeLocale()
     {
-        return $this->chargebeeLocale;
+        return $this->chargebee_locale;
     }
 
     public function hasChargebeeId()
