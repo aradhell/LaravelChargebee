@@ -18,7 +18,7 @@ class CreateSubscriptionsTable extends Migration
             $table->string('subscription_id');
             $table->string('plan_id');
             $table->string('status')->nullable();
-            $table->integer('user_id')->index()->unsigned();
+            $table->integer('owner_id')->index()->unsigned();
             $table->integer('quantity')->default(1);
             $table->integer('last_four')->nullable();
             $table->timestamp('ends_at')->nullable();

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8ac6be8060e2316418ebc8a1a4c27778",
+    "content-hash": "7b2b6a443f7cc04c435195976969c7af",
     "packages": [
         {
             "name": "chargebee/chargebee-php",

@@ -16,10 +16,10 @@ class Subscription extends Model
 
     const STATUS_ACTIVE = 'active';
     const STATUS_TRIAL = 'in_trial';
-    const STATUS_CANCELED= 'cancelled';
+    const STATUS_CANCELED = 'cancelled';
     const STATUS_PAUSED = 'paused';
     const STATUS_FUTURE = 'future';
-    const STATUS_NON_RENEWING= 'non_renewing';
+    const STATUS_NON_RENEWING = 'non_renewing';
 
     public static $statusMap = [
         'active' => self::STATUS_ACTIVE,
@@ -30,7 +30,7 @@ class Subscription extends Model
         'non_renewing' => self::STATUS_NON_RENEWING,
     ];
 
-    protected $fillable = ['subscription_id', 'plan_id', 'user_id', 'quantity', 'last_four', 'trial_ends_at', 'ends_at', 'next_billing_at', 'status'];
+    protected $fillable = ['subscription_id', 'plan_id', 'owner_id', 'quantity', 'last_four', 'trial_ends_at', 'ends_at', 'next_billing_at', 'status'];
 
     /**
      * @var array
@@ -40,10 +40,9 @@ class Subscription extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
+    public function owner()
     {
-        $model = env('CHARGEBEE_MODEL') ?: config('chargebee.model', User::class);
-        return $this->belongsTo($model, 'user_id');
+        return $this->belongsTo(Cashier::$customerModel, 'owner_id');
     }
 
     /**

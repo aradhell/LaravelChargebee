@@ -2,11 +2,11 @@
 namespace TijmenWierenga\LaravelChargebee;
 
 use ChargeBee\ChargeBee\Environment;
+use ChargeBee\ChargeBee\Models\Customer;
 use ChargeBee\ChargeBee\Models\HostedPage;
-use ChargeBee_Environment;
-use ChargeBee_HostedPage;
-use ChargeBee_Subscription;
 use Illuminate\Database\Eloquent\Model;
+use TijmenWierenga\LaravelChargebee\Exceptions\CustomerAlreadyCreated;
+use TijmenWierenga\LaravelChargebee\Exceptions\InvalidCustomer;
 use TijmenWierenga\LaravelChargebee\Exceptions\MissingPlanException;
 use TijmenWierenga\LaravelChargebee\Exceptions\UserMismatchException;
 
@@ -58,15 +58,6 @@ class Subscriber
      */
     public function __construct(Model $model = null, $plan = null, array $config = null)
     {
-        // Set up Chargebee environment keys
-        Environment::configure(getenv('CHARGEBEE_SITE'), getenv('CHARGEBEE_KEY'));
-
-        // You can set a plan on the constructor, but it's not required
-        $this->plan = $plan;
-        $this->model = $model;
-
-        // Set config settings.
-        $this->config = ($config) ?: $this->getDefaultConfig();
     }
 
     /**
@@ -115,6 +106,10 @@ class Subscriber
     {
         if (! $this->plan) throw new MissingPlanException('No plan was set to assign to the customer.');
 
+        return HostedPage::checkoutNewForItems(array(
+            "subscriptionItems" => array(array(
+                "itemPriceId" => "starter-EUR-Monthly",)
+        )));
         return HostedPage::checkoutNew([
             'subscription' => [
                 'planId' => $this->plan
@@ -306,15 +301,5 @@ class Subscriber
         if (empty($this->addOns)) return null;
 
         return $this->addOns;
-    }
-
-    /**
-     * @return mixed|null
-     */
-    private function getDefaultConfig()
-    {
-        if (getenv('APP_ENV') === 'testing') return null;
-
-        return config('chargebee');
     }
 }
