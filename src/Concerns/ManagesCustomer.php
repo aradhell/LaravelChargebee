@@ -2,6 +2,7 @@
 
 namespace TijmenWierenga\LaravelChargebee\Concerns;
 
+use ChargeBee\ChargeBee\Models\Customer;
 use ChargeBee\ChargeBee\Models\Customer as ChargebeeCustomer;
 use TijmenWierenga\LaravelChargebee\Exceptions\CustomerAlreadyCreated;
 use TijmenWierenga\LaravelChargebee\Exceptions\InvalidCustomer;
@@ -29,6 +30,14 @@ trait ManagesCustomer
         if (! $this->hasChargebeeId()) {
             throw InvalidCustomer::notYetCreated($this);
         }
+    }
+
+    public function updateChargebeeCustomer(array $params = [])
+    {
+        Customer::update(
+            $this->chargebee_id,
+            $params
+        );
     }
 
     public function createAsChargebeeCustomer(array $options): ChargebeeCustomer

@@ -16,10 +16,6 @@ trait Billable
 
     public function __construct()
     {
-        Environment::configure(
-            env('CHARGEBEE_SITE'),
-            env('CHARGEBEE_KEY')
-        );
     }
 
     /**
