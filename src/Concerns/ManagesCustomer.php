@@ -8,7 +8,7 @@ use TijmenWierenga\LaravelChargebee\Exceptions\InvalidCustomer;
 
 trait ManagesCustomer
 {
-    public function createOrGetStripeCustomer(array $options = []): ChargebeeCustomer
+    public function createOrGetChargebeeCustomer(array $options = []): ChargebeeCustomer
     {
         if ($this->hasChargebeeId()) {
             return $this->asChargebeeCustomer();
