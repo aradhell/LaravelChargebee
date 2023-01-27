@@ -102,14 +102,14 @@ class Subscriber
      * @return mixed
      * @throws MissingPlanException
      */
-    public function getCheckoutUrl($embed = false)
+    public function getCheckoutUrl($embed = false, array $params = [])
     {
         if (! $this->plan) throw new MissingPlanException('No plan was set to assign to the customer.');
 
         return HostedPage::checkoutNewForItems(array(
             "subscriptionItems" => array(array(
                 "itemPriceId" => "starter-EUR-Monthly",)
-        )));
+        )))->hostedPage()->url;
         return HostedPage::checkoutNew([
             'subscription' => [
                 'planId' => $this->plan

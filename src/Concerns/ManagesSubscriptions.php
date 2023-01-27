@@ -2,8 +2,10 @@
 
 namespace TijmenWierenga\LaravelChargebee\Concerns;
 
+use ChargeBee\ChargeBee\Models\HostedPage;
 use ChargeBee\ChargeBee\Models\Subscription as ChargebeeSubscription;
 use TijmenWierenga\LaravelChargebee\Cashier;
+use TijmenWierenga\LaravelChargebee\Exceptions\MissingPlanException;
 use TijmenWierenga\LaravelChargebee\Subscription;
 
 trait ManagesSubscriptions
@@ -21,5 +23,10 @@ trait ManagesSubscriptions
     public function subscriptions()
     {
         return $this->hasMany(Cashier::$subscriptionModel, $this->getForeignKey())->orderBy('created_at', 'desc');
+    }
+
+    public function getCheckoutUrl(array $params = [])
+    {
+        return HostedPage::checkoutNewForItems($params)->hostedPage()->url;
     }
 }
