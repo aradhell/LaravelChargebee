@@ -1,5 +1,7 @@
 <?php
 
+namespace TijmenWierenga\LaravelChargebee\Concerns;
+
 use ChargeBee\ChargeBee\Models\Subscription as ChargebeeSubscription;
 use TijmenWierenga\LaravelChargebee\Cashier;
 use TijmenWierenga\LaravelChargebee\Subscription;

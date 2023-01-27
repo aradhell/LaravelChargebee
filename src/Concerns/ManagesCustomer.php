@@ -1,5 +1,7 @@
 <?php
 
+namespace TijmenWierenga\LaravelChargebee\Concerns;
+
 use ChargeBee\ChargeBee\Models\Customer as ChargebeeCustomer;
 use TijmenWierenga\LaravelChargebee\Exceptions\CustomerAlreadyCreated;
 use TijmenWierenga\LaravelChargebee\Exceptions\InvalidCustomer;

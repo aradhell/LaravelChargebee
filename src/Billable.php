@@ -2,8 +2,8 @@
 namespace TijmenWierenga\LaravelChargebee;
 
 use ChargeBee\ChargeBee\Environment;
-use ManagesCustomer;
-use ManagesSubscriptions;
+use TijmenWierenga\LaravelChargebee\Concerns\ManagesCustomer;
+use TijmenWierenga\LaravelChargebee\Concerns\ManagesSubscriptions;
 
 /**
  * Class Billable
