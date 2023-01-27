@@ -8,7 +8,7 @@ use TijmenWierenga\LaravelChargebee\Subscription;
 
 trait ManagesSubscriptions
 {
-    public function update(Subscription $subscription, array $params = []): ChargebeeSubscription
+    public function updateSubscription(Subscription $subscription, array $params = []): ChargebeeSubscription
     {
         return ChargebeeSubscription::update($subscription->subscription_id, $params)->subscription();
     }
