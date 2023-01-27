@@ -66,8 +66,8 @@ trait ManagesCustomer
             $options['billingAddress'] = $address;
         }
 
-        if (! array_key_exists('locale', $options) && $locales = $this->chargebeeLocale()) {
-            $options['locale'] = $locales;
+        if (! array_key_exists('locale', $options) && $locale = $this->chargebeeLocale()) {
+            $options['locale'] = $locale;
         }
 
         // Here we will create the customer instance on Stripe and store the ID of the
