@@ -25,8 +25,13 @@ trait ManagesSubscriptions
         return $this->hasMany(Cashier::$subscriptionModel, $this->getForeignKey())->orderBy('created_at', 'desc');
     }
 
-    public function getCheckoutUrl(array $params = [])
+    public function getHostedPageForNewSubscription(array $params = [])
     {
         return HostedPage::checkoutNewForItems($params)->hostedPage()->url;
+    }
+
+    public function getHostedPageToUpdateSubscription(array $params = [])
+    {
+        return HostedPage::checkoutExistingForItems($params)->hostedPage();
     }
 }

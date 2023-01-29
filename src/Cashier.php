@@ -2,6 +2,8 @@
 
 namespace TijmenWierenga\LaravelChargebee;
 
+use Illuminate\Database\Eloquent\Model;
+
 class Cashier
 {
     /**

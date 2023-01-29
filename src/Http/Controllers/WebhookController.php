@@ -4,6 +4,7 @@ namespace TijmenWierenga\LaravelChargebee\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use TijmenWierenga\LaravelChargebee\Cashier;
 use TijmenWierenga\LaravelChargebee\Subscription;
 
 /**
@@ -76,7 +77,7 @@ class WebhookController extends Controller
      */
     protected function getSubscription($subscriptionId)
     {
-        $subscription = (new Subscription)->where('subscription_id', $subscriptionId)->first();
+        $subscription = (new Cashier::$subscriptionModel)->where('subscription_id', $subscriptionId)->first();
 
         return $subscription;
     }
