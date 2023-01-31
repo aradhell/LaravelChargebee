@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 use TijmenWierenga\LaravelChargebee\Cashier;
 use TijmenWierenga\LaravelChargebee\ChargebeeSubscription;
 use TijmenWierenga\LaravelChargebee\ChargebeeTransaction;
