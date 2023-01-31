@@ -4,7 +4,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSubscriptionsTable extends Migration
+return new class extends Migration
 {
     /**
      * Create the subscription table
@@ -37,4 +37,4 @@ class CreateSubscriptionsTable extends Migration
     {
         Schema::drop('chargebee_subscriptions');
     }
-}
+};

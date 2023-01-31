@@ -4,7 +4,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAddonsTable extends Migration
+return new class extends Migration
 {
     /**
      * Create the subscription table
@@ -32,4 +32,4 @@ class CreateAddonsTable extends Migration
     {
         Schema::drop('addons');
     }
-}
+};
