@@ -10,7 +10,7 @@ trait ManagesSubscriptions
 {
     public function updateSubscription(string $subscriptionId, array $params = []): ChargebeeSubscription
     {
-        return ChargebeeSubscription::update($subscriptionId, $params)->subscription();
+        return ChargebeeSubscription::updateForItems($subscriptionId, $params)->subscription();
     }
 
     /**
