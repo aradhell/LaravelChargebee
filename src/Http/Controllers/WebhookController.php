@@ -86,7 +86,7 @@ class WebhookController extends Controller
                 'customer_id' => $payload->transaction->customer_id,
                 'amount' => $payload->transaction->amount,
                 'base_currency_code' => $payload->transaction->base_currency_code,
-                'currency_code' => $payload->transaction->base_currcurrency_codeency_code,
+                'currency_code' => $payload->transaction->currency_code,
                 'payment_date' => Carbon::parse($payload->transaction->date),
                 'gateway' => $payload->transaction->gateway,
                 'payment_method' => $payload->transaction->payment_method,
