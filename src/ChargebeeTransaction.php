@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ChargebeeTransaction extends Model
 {
     protected $fillable = [
+        'transaction_id',
         'customer_id',
         'amount',
         'base_currency_code',
