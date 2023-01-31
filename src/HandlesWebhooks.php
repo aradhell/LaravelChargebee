@@ -22,7 +22,6 @@ trait HandlesWebhooks
     public function updateCancellationDate($date = null)
     {
         $this->ends_at = ($date) ?: Carbon::now();
-        $this->status = self::STATUS_CANCELED;
         $this->save();
 
         return $this;

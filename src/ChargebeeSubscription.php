@@ -1,14 +1,24 @@
 <?php
 namespace TijmenWierenga\LaravelChargebee;
 
-
-use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class ChargebeeSubscription
- * @package TijmenWierenga\LaravelChargebee
+ * TijmenWierenga\LaravelChargebee\ChargebeeSubscription
+ *
+ * @property string $subscription_id
+ * @property string $plan_id
+ * @property string|null $status
+ * @property int $owner_id
+ * @property int $quantity
+ * @property int|null $last_four
+ * @property \Illuminate\Support\Carbon|null $ends_at
+ * @property \Illuminate\Support\Carbon|null $trial_ends_at
+ * @property \Illuminate\Support\Carbon|null $next_billing_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  */
 class ChargebeeSubscription extends Model
 {
