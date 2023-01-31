@@ -1,11 +1,15 @@
 <?php
+
 namespace TijmenWierenga\LaravelChargebee\Http\Controllers;
 
 
 use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use TijmenWierenga\LaravelChargebee\Cashier;
 use TijmenWierenga\LaravelChargebee\ChargebeeSubscription;
+use TijmenWierenga\LaravelChargebee\ChargebeeTransaction;
 
 /**
  * Class WebhookController
@@ -62,21 +66,49 @@ class WebhookController extends Controller
      */
     public function handlePaymentSucceeded($payload)
     {
-        $subscription = $this->getSubscription($payload->subscription->id);
+        $subscriptionId = null;
+        if (isset($payload->subscription) && isset($payload->subscription->id)) {
+            $subscriptionId = $payload->subscription->id;
+        }
+        $subscription = $this->getSubscription($subscriptionId);
 
         if ($subscription) {
             $subscription->ends_at = $payload->subscription->current_term_end;
+            $subscription->save();
         }
+
+        ChargebeeTransaction::updateOrCreate(
+            [
+                'transaction_id' => $payload->transaction->id,
+            ],
+            [
+                'customer_id' => $payload->transaction->customer_id,
+                'amount' => $payload->transaction->amount,
+                'base_currency_code' => $payload->transaction->base_currency_code,
+                'currency_code' => $payload->transaction->base_currcurrency_codeency_code,
+                'payment_date' => Carbon::parse($payload->transaction->date),
+                'gateway' => $payload->transaction->gateway,
+                'payment_method' => $payload->transaction->payment_method,
+                'status' => $payload->transaction->status,
+                'type' => $payload->transaction->type,
+                'deleted' => $payload->transaction->deleted,
+                'exchange_rate' => $payload->transaction->exchange_rate,
+                'subscription_id' => $payload->transaction->subscription_id ?? null,
+            ]
+        );
 
         return response("Webhook handled successfully.", 200);
     }
 
     /**
-     * @param $subscriptionId
+     * @param string|null $subscriptionId
      * @return mixed
      */
-    protected function getSubscription($subscriptionId)
+    protected function getSubscription(?string $subscriptionId): ?Model
     {
+        if (empty($subscriptionId)) {
+            return null;
+        }
         $subscription = (new Cashier::$subscriptionModel)->where('subscription_id', $subscriptionId)->first();
 
         return $subscription;
