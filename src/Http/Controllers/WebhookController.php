@@ -5,7 +5,7 @@ namespace TijmenWierenga\LaravelChargebee\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use TijmenWierenga\LaravelChargebee\Cashier;
-use TijmenWierenga\LaravelChargebee\Subscription;
+use TijmenWierenga\LaravelChargebee\ChargebeeSubscription;
 
 /**
  * Class WebhookController
@@ -26,7 +26,7 @@ class WebhookController extends Controller
         if (method_exists($this, 'handle' . $webhookEvent)) {
 
             if (isset($payload->subscription) && isset($payload->subscription->status)) {
-                /** @var Subscription $subscription */
+                /** @var ChargebeeSubscription $subscription */
                 $subscription = $this->getSubscription($payload->subscription->id);
 
                 if ($subscription) {
@@ -46,7 +46,7 @@ class WebhookController extends Controller
      */
     public function handleSubscriptionCancelled($payload)
     {
-        /** @var Subscription $subscription */
+        /** @var ChargebeeSubscription $subscription */
         $subscription = $this->getSubscription($payload->subscription->id);
 
         if ($subscription) {

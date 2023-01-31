@@ -206,7 +206,7 @@ class Subscriber
      * @param $plan
      * @return null
      */
-    public function swap(Subscription $subscription, $plan, array $params = [])
+    public function swap(ChargebeeSubscription $subscription, $plan, array $params = [])
     {
         $params['plan_id'] = $plan;
         return \ChargeBee\ChargeBee\Models\Subscription::update($subscription->subscription_id, $params)->subscription();
@@ -215,10 +215,10 @@ class Subscriber
     /**
      * Cancel an existing subscription
      *
-     * @param Subscription $subscription
+     * @param ChargebeeSubscription $subscription
      * @return null
      */
-    public function cancel(Subscription $subscription, $cancelImmediately = false, array $params = [])
+    public function cancel(ChargebeeSubscription $subscription, $cancelImmediately = false, array $params = [])
     {
         $params['end_of_term'] = ! $cancelImmediately;
         // TODO: Check if subscription is active or in trial
@@ -228,10 +228,10 @@ class Subscriber
     /**
      * Resume a subscription that has a scheduled cancellation
      *
-     * @param Subscription $subscription
+     * @param ChargebeeSubscription $subscription
      * @return null
      */
-    public function resume(Subscription $subscription, array $params = [])
+    public function resume(ChargebeeSubscription $subscription, array $params = [])
     {
         return \ChargeBee\ChargeBee\Models\Subscription::removeScheduledCancellation($subscription->subscription_id, $params)->subscription();
     }
@@ -239,10 +239,10 @@ class Subscriber
     /**
      * Reactivate a cancelled subscription
      *
-     * @param Subscription $subscription
+     * @param ChargebeeSubscription $subscription
      * @return null
      */
-    public function reactivate(Subscription $subscription, array $params = [])
+    public function reactivate(ChargebeeSubscription $subscription, array $params = [])
     {
         // TODO: Check if subscription is cancelled
         return \ChargeBee\ChargeBee\Models\Subscription::reactivate($subscription->subscription_id, $params)->subscription();

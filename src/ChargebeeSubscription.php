@@ -7,10 +7,10 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Subscription
+ * Class ChargebeeSubscription
  * @package TijmenWierenga\LaravelChargebee
  */
-class Subscription extends Model
+class ChargebeeSubscription extends Model
 {
     use HandlesWebhooks;
 

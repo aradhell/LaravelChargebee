@@ -11,7 +11,7 @@ use TijmenWierenga\LaravelChargebee\Billable;
 use TijmenWierenga\LaravelChargebee\Exceptions\MissingPlanException;
 use TijmenWierenga\LaravelChargebee\HandlesWebhooks;
 use TijmenWierenga\LaravelChargebee\Subscriber;
-use TijmenWierenga\LaravelChargebee\Subscription;
+use TijmenWierenga\LaravelChargebee\ChargebeeSubscription;
 
 class BillableTest extends PHPUnit_Framework_TestCase
 {
@@ -70,7 +70,7 @@ class BillableTest extends PHPUnit_Framework_TestCase
         $this->schema()->drop('subscriptions');
         $this->schema()->drop('addons');
     }
-    
+
     /**
     * @test
     */
@@ -117,7 +117,7 @@ class BillableTest extends PHPUnit_Framework_TestCase
         $subscription = $user->subscription('cbdemo_free')->create();
 
         // Test if subscription is created in database
-        $this->assertInstanceOf(Subscription::class, $subscription);
+        $this->assertInstanceOf(ChargebeeSubscription::class, $subscription);
         // Test if user has a related subscription
         $this->assertCount(1, $user->subscriptions);
         // Test if subscription has an subscription identifier from Chargebee
@@ -142,7 +142,7 @@ class BillableTest extends PHPUnit_Framework_TestCase
         $subscription = $user->subscription('cbdemo_hustle')->create($cardToken);
 
         // Test if subscription is created in database
-        $this->assertInstanceOf(Subscription::class, $subscription);
+        $this->assertInstanceOf(ChargebeeSubscription::class, $subscription);
         // Test if user has a related subscription
         $this->assertCount(1, $user->subscriptions);
         // Test if subscription has an subscription identifier from Chargebee

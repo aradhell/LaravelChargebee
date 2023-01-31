@@ -18,7 +18,7 @@ class Cashier
      *
      * @var string
      */
-    public static $subscriptionModel = Subscription::class;
+    public static $subscriptionModel = ChargebeeSubscription::class;
 
     /**
      * Set the customer model class name.

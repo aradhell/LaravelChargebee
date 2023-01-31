@@ -34,6 +34,6 @@ trait Billable
      */
     public function subscriptions()
     {
-        return $this->hasMany(Subscription::class);
+        return $this->hasMany(ChargebeeSubscription::class);
     }
 }
