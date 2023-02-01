@@ -74,7 +74,7 @@ class WebhookController extends Controller
                 $subscription->ends_at = $payload->subscription->current_term_end;
             }
             $subscription->status = $payload->subscription->status;
-            if ($payload->subscription->trial_ends_at) {
+            if ($payload->subscription->trial_end) {
                 $subscription->trial_ends_at = $payload->subscription->trial_end;
             }
             if ($payload->subscription->next_billing_at) {
