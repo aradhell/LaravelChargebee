@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property string $subscription_id
  * @property string $plan_id
+ * @property string $customer_id
  * @property string|null $status
  * @property int $owner_id
  * @property int $quantity

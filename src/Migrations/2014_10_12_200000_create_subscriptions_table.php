@@ -16,9 +16,10 @@ return new class extends Migration
         Schema::create('chargebee_subscriptions', function($table) {
             $table->increments('id');
             $table->string('subscription_id');
+            $table->string('customer_id');
             $table->string('plan_id');
             $table->string('status')->nullable();
-            $table->integer('owner_id')->index()->unsigned();
+            $table->bigint('owner_id')->index()->unsigned();
             $table->integer('quantity')->default(1);
             $table->integer('last_four')->nullable();
             $table->timestamp('ends_at')->nullable();

@@ -81,12 +81,12 @@ class WebhookController extends Controller
                 $subscription->next_billing_at = $payload->subscription->next_billing_at;
             }
             if ($payload->subscription->customer_id) {
-                $subscription->owner_id = $payload->subscription->customer_id;
+                $subscription->customer_id = $payload->subscription->customer_id;
             }
             if ($payload->subscription->subscription_items) {
                 foreach ($payload->subscription->subscription_items as $subscription_item) {
-                    if ($subscription_item['item_type'] == 'plan') {
-                        $subscription->plan_id = $subscription_item['item_price_id'];
+                    if ($subscription_item->item_type == 'plan') {
+                        $subscription->plan_id = $subscription_item->item_price_id;
                     }
                 }
             }
