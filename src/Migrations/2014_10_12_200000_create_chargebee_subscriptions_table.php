@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('customer_id');
             $table->string('plan_id');
             $table->string('status')->nullable();
-            $table->bigint('owner_id')->index()->unsigned();
+            $table->biginteger('owner_id')->index()->unsigned();
             $table->integer('quantity')->default(1);
             $table->integer('last_four')->nullable();
             $table->timestamp('ends_at')->nullable();
