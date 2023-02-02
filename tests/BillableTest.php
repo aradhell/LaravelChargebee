@@ -6,7 +6,7 @@ use Dotenv\Dotenv;
 use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Stripe\Token;
-use TijmenWierenga\LaravelChargebee\Addon;
+use TijmenWierenga\LaravelChargebee\ChargebeeAddon;
 use TijmenWierenga\LaravelChargebee\Billable;
 use TijmenWierenga\LaravelChargebee\Exceptions\MissingPlanException;
 use TijmenWierenga\LaravelChargebee\HandlesWebhooks;
@@ -203,7 +203,7 @@ class BillableTest extends PHPUnit_Framework_TestCase
             ->create($cardToken);
 
         // Test if add-on was successfully created.
-        $this->assertInstanceOf(Addon::class, $subscription->addons->first());
+        $this->assertInstanceOf(ChargebeeAddon::class, $subscription->addons->first());
         // Test if a next billing period is defined
         $this->assertInstanceOf(Carbon::class, $subscription->next_billing_at);
     }
