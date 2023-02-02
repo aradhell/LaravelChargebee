@@ -45,7 +45,7 @@ class Install extends Command
         }
         catch (\Exception $e)
         {
-            $this->error('Could not fully install the Chargebee package', [$e->getMessage(), $e->getTraceAsString()]);
+            $this->error('Could not fully install the Chargebee package ' . $e->getMessage() . $e->getTraceAsString());
         }
 
         $bar->finish();
