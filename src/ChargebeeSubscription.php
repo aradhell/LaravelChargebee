@@ -1,8 +1,10 @@
 <?php
 namespace TijmenWierenga\LaravelChargebee;
 
-use Carbon\Carbon;
+use ChargeBee\ChargeBee\Models\Addon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * TijmenWierenga\LaravelChargebee\ChargebeeSubscription
@@ -14,11 +16,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $owner_id
  * @property int $quantity
  * @property int|null $last_four
- * @property \Illuminate\Support\Carbon|null $ends_at
- * @property \Illuminate\Support\Carbon|null $trial_ends_at
- * @property \Illuminate\Support\Carbon|null $next_billing_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $ends_at
+ * @property Carbon|null $trial_ends_at
+ * @property Carbon|null $next_billing_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  *
  */
 class ChargebeeSubscription extends Model
@@ -53,9 +55,9 @@ class ChargebeeSubscription extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function owner()
+    public function owner(): BelongsTo
     {
-        return $this->belongsTo(Cashier::$customerModel, 'owner_id');
+        return $this->belongsTo(Cashier::$customerModel, 'owner_id', 'chargebee_id');
     }
 
     /**
