@@ -3,13 +3,12 @@
 namespace TijmenWierenga\LaravelChargebee\Concerns;
 
 use ChargeBee\ChargeBee\Models\Customer;
-use ChargeBee\ChargeBee\Models\Customer as ChargebeeCustomer;
 use TijmenWierenga\LaravelChargebee\Exceptions\CustomerAlreadyCreated;
 use TijmenWierenga\LaravelChargebee\Exceptions\InvalidCustomer;
 
 trait ManagesCustomer
 {
-    public function createOrGetChargebeeCustomer(array $options = []): ChargebeeCustomer
+    public function createOrGetChargebeeCustomer(array $options = []): Customer
     {
         if ($this->hasChargebeeId()) {
             return $this->asChargebeeCustomer();
@@ -18,11 +17,11 @@ trait ManagesCustomer
         return $this->createAsChargebeeCustomer($options);
     }
 
-    public function asChargebeeCustomer(array $expand = []): ChargebeeCustomer
+    public function asChargebeeCustomer(array $expand = []): Customer
     {
         $this->assertCustomerExists();
 
-        return ChargebeeCustomer::retrieve($this->chargebee_id)->customer();
+        return Customer::retrieve($this->chargebee_id)->customer();
     }
 
     protected function assertCustomerExists()
@@ -40,7 +39,15 @@ trait ManagesCustomer
         );
     }
 
-    public function createAsChargebeeCustomer(array $options): ChargebeeCustomer
+    public function updateBillingInfo(array $params = [])
+    {
+        Customer::updateBillingInfo(
+            $this->chargebee_id,
+            $params
+        );
+    }
+
+    public function createAsChargebeeCustomer(array $options): Customer
     {
         if ($this->hasChargebeeId()) {
             throw CustomerAlreadyCreated::exists($this);
@@ -73,7 +80,7 @@ trait ManagesCustomer
         // Here we will create the customer instance on Stripe and store the ID of the
         // user from Stripe. This ID will correspond with the Stripe user instances
         // and allow us to retrieve users from Stripe later when we need to work.
-        $customer = ChargebeeCustomer::create($options);
+        $customer = Customer::create($options);
 
         $this->chargebee_id = $customer->customer()->id;
 
