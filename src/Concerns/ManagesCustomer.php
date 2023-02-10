@@ -69,9 +69,9 @@ trait ManagesCustomer
             $options['phone'] = $phone;
         }
 
-        if (! array_key_exists('billingAddress', $options) && $address = $this->chargebeeAddress()) {
-            $options['billingAddress'] = $address;
-        }
+//        if (! array_key_exists('billingAddress', $options) && $address = $this->chargebeeAddress()) {
+//            $options['billingAddress'] = $address;
+//        }
 
         if (! array_key_exists('locale', $options) && $locale = $this->chargebeeLocale()) {
             $options['locale'] = $locale;

@@ -167,17 +167,11 @@ class WebhookController extends Controller
 
         $customer = (new Cashier::$customerModel)->where('chargebee_id', $customerId)->firstOrFail();
 
-        if (isset($payload->customer->first_name)) {
-            $customer->first_name = $payload->customer->first_name;
+        if (isset($payload->customer->billing_address->email)) {
+            $customer->email = $payload->customer->billing_address->email;
         }
-        if (isset($payload->customer->last_name)) {
-            $customer->last_name = $payload->customer->last_name;
-        }
-        if (isset($payload->customer->email)) {
-            $customer->email = $payload->customer->email;
-        }
-        if (isset($payload->customer->company)) {
-            $customer->name = $payload->customer->company;
+        if (isset($payload->customer->billing_address->company)) {
+            $customer->name = $payload->customer->billing_address->company;
         }
         if (isset($payload->customer->vat_number)) {
             $customer->vat_number = $payload->customer->vat_number;
