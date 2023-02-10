@@ -49,9 +49,11 @@ class WebhookController extends Controller
 
         if (isset($payload->subscription) && isset($payload->subscription->status)) {
             $this->handleSubscription($payload);
-        } elseif (isset($payload->transaction) && isset($payload->transaction->status)) {
+        }
+        if (isset($payload->transaction) && isset($payload->transaction->status)) {
             $this->handlePayment($payload);
-        } elseif (isset($payload->customer) && isset($payload->customer->id)) {
+        }
+        if (isset($payload->customer) && isset($payload->customer->id)) {
             $this->handleCustomer($payload);
         }
 
