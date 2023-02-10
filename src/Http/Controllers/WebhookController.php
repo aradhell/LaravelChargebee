@@ -210,6 +210,9 @@ class WebhookController extends Controller
         if (isset($payload->customer->billing_address->validation_status)) {
             $customer->address_validation_status = $payload->customer->billing_address->validation_status;
         }
+        if (isset($payload->customer->billing_address->state)) {
+            $customer->state = $payload->customer->billing_address->state;
+        }
         if (isset($payload->customer->vat_number_prefix)) {
             $customer->chargebee_vat_number_prefix = $payload->customer->vat_number_prefix;
         }
