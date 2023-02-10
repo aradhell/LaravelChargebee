@@ -152,7 +152,7 @@ class WebhookController extends Controller
             $customerId = $payload->customer->id;
         }
 
-        $customer = (new Cashier::$subscriptionModel)->where('chargebee_id', $customerId)->firstOrFail();
+        $customer = (new Cashier::$customerModel)->where('chargebee_id', $customerId)->firstOrFail();
 
         if ($payload->customer->first_name) {
             $customer->first_name = $payload->customer->first_name;
