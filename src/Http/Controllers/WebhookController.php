@@ -163,7 +163,7 @@ class WebhookController extends Controller
             $customerId = $payload->customer->id;
         }
 
-        Log::info("handleCustomer $customerId");
+        Log::info("handleCustomer", [$payload->customer]);
 
         $customer = (new Cashier::$customerModel)->where('chargebee_id', $customerId)->firstOrFail();
 
