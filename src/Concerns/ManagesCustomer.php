@@ -3,6 +3,7 @@
 namespace TijmenWierenga\LaravelChargebee\Concerns;
 
 use ChargeBee\ChargeBee\Models\Customer;
+use ChargeBee\ChargeBee\Models\Invoice;
 use TijmenWierenga\LaravelChargebee\Exceptions\CustomerAlreadyCreated;
 use TijmenWierenga\LaravelChargebee\Exceptions\InvalidCustomer;
 
@@ -15,6 +16,11 @@ trait ManagesCustomer
         }
 
         return $this->createAsChargebeeCustomer($options);
+    }
+
+    public function chargebeeInvoices(array $options = [])
+    {
+        return Invoice::all($options);
     }
 
     public function asChargebeeCustomer(array $expand = []): Customer
