@@ -3,6 +3,7 @@ namespace TijmenWierenga\LaravelChargebee;
 
 use ChargeBee\ChargeBee\Environment;
 use TijmenWierenga\LaravelChargebee\Concerns\ManagesCustomer;
+use TijmenWierenga\LaravelChargebee\Concerns\ManagesInvoices;
 use TijmenWierenga\LaravelChargebee\Concerns\ManagesSubscriptions;
 use TijmenWierenga\LaravelChargebee\Concerns\ManagesTransactions;
 
@@ -15,6 +16,7 @@ trait Billable
     use ManagesCustomer;
     use ManagesSubscriptions;
     use ManagesTransactions;
+    use ManagesInvoices;
 
     public function __construct()
     {
